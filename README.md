@@ -6,9 +6,35 @@ All of the settings in the xcconfig file, the `UnityProjectInstall.sh`
 script and the project import are directly derieved from his work. The video
 he made in the provided link is worth watching.
 
-
 This covers Unity 5+. At the time of this writing this has been
 successfully used with Unity `5.2.2f1` and `Swift 2.1` under `Xcode 7.1`.
+
+You only get **ONE** unity view. You CANNOT run multiple Unity
+Views in your application at once. So you will need a way to
+communicate to and from your unity content. I would recommend
+an event bus in both your unity code and your iOS code. AKA one
+central place to emit events to and listen to events from on each side.
+
+You can read more about communication between the 2 worlds from
+the following links:
+
+**More about embedding**
+http://forum.unity3d.com/threads/unity-appcontroller-subclassing.191971/
+
+Specifically there is a bit on commuicating here with some sample code.
+Note, this is not for UNITY 5, but it shows the samples in OverlayUI related
+making functions available to the Objective-C side of things to be called from
+your Unity Code.
+
+http://forum.unity3d.com/threads/unity-appcontroller-subclassing.191971/#post-1341666
+
+
+**Communicating from Unity -> ObjC**
+http://blogs.unity3d.com/2015/07/02/il2cpp-internals-pinvoke-wrappers/
+http://forum.unity3d.com/threads/unity-5-2-2f1-embed-in-ios-with-extern-dllimport-__internal-methods-fails-to-compile.364809/
+
+**Communicating from Unity <-> ObjC**
+http://alexanderwong.me/post/29861010648/call-objective-c-from-unity-call-unity-from
 
 
 ## Lets get started.
@@ -52,7 +78,7 @@ which is not diffiucilt, it's just time consuming given the number of files.
 - Alter the application delegate and cerate a main.swift file.
 - Wrap the UnityAppController into your application delegate
 - Adjust the `GetAppController` function in `UnityAppController.h`
-
+- Go bananas, you did it! Add the unity view wherever you want.
 
 #### Add the Unity.xcconfig file provided in this repo
 
@@ -276,7 +302,6 @@ Now we need to add a new version of this function:
 ```objc
 NS_INLINE UnityAppController* GetAppController()
 {
-
     NSObject<UIApplicationDelegate>* delegate = [UIApplication sharedApplication].delegate;
     UnityAppController* currentUnityController = (UnityAppController *)[delegate valueForKey:@"currentUnityController"];
     return currentUnityController;
