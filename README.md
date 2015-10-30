@@ -44,7 +44,7 @@ http://forum.unity3d.com/threads/unity-appcontroller-subclassing.191971/#post-13
 **Communicating from Unity -> ObjC**
 
 http://blogs.unity3d.com/2015/07/02/il2cpp-internals-pinvoke-wrappers/
-gi
+
 http://forum.unity3d.com/threads/unity-5-2-2f1-embed-in-ios-with-extern-dllimport-__internal-methods-fails-to-compile.364809/
 
 
@@ -94,7 +94,7 @@ which is not diffiucilt, it's just time consuming given the number of files.
 - Alter the application delegate and cerate a main.swift file.
 - Wrap the UnityAppController into your application delegate
 - Adjust the `GetAppController` function in `UnityAppController.h`
-- Go bananas, you did it! Add the unity view wherever you want.
+- Go bananas, you did it! Add the unity view wherever you want!
 
 #### Add the Unity.xcconfig file provided in this repo
 
@@ -322,6 +322,49 @@ NS_INLINE UnityAppController* GetAppController()
     UnityAppController* currentUnityController = (UnityAppController *)[delegate valueForKey:@"currentUnityController"];
     return currentUnityController;
 }
+```
+
+
+#### Go bananas, you did it! Add the unity view wherever you want!
+
+I happen to do this in a stock, single view application, so xcode generated a `ViewController.swift`
+file for me attached to a storyboard. Here is how I hooked up my little demo:
+
+```swift
+//
+//  ViewController.swift
+//
+//  Created by Adam Venturella on 10/28/15.
+//
+
+import UIKit
+
+class ViewController: UIViewController {
+
+    @IBAction func onLoadUnity(sender: AnyObject) {
+        loadUnity()
+    }
+
+    @IBAction func onCallUnity(sender: AnyObject) {
+        UnitySendMessage("EventBus", "Trigger", "Hello World")
+    }
+
+    func loadUnity(){
+
+        let unityView = UnityGetGLView()
+
+        self.view.addSubview(unityView)
+        unityView.translatesAutoresizingMaskIntoConstraints = false
+
+        // look, non-full screen unity content!
+        let views = ["view": unityView]
+        let w = NSLayoutConstraint.constraintsWithVisualFormat("|[view]-20-|", options: [], metrics: nil, views: views)
+        let h = NSLayoutConstraint.constraintsWithVisualFormat("V:|-75-[view]-50-|", options: [], metrics: nil, views: views)
+
+        view.addConstraints(w + h)
+    }
+}
+
 ```
 
 [www.the-nerd.be]: http://www.the-nerd.be/2015/08/20/a-better-way-to-integrate-unity3d-within-a-native-ios-application/  "The Nerd"
