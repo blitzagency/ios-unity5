@@ -6,7 +6,7 @@ for those who may not know where certain things are in xcode.
 
 
 This would not be possible without [www.the-nerd.be],  Frederik Jacques.
-All of the settings in the xcconfig file, the `UnityProjectInstall.sh`
+All of the settings in the xcconfig file, the `UnityProjectRefresh.sh`
 script and the project import are directly derieved from his work. The video
 he made in the provided link is worth watching.
 
