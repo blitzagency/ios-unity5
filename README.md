@@ -1,5 +1,9 @@
 # How to use Unity 3D within an iOS app
 
+This is going to appear to be complicated based on the length of this article
+it's really not. I try to fully show some examples here, and provide some images
+for those who may not know where certain things are in xcode.
+
 
 This would not be possible without [www.the-nerd.be],  Frederik Jacques.
 All of the settings in the xcconfig file, the `UnityProjectInstall.sh`
@@ -40,7 +44,7 @@ http://forum.unity3d.com/threads/unity-appcontroller-subclassing.191971/#post-13
 **Communicating from Unity -> ObjC**
 
 http://blogs.unity3d.com/2015/07/02/il2cpp-internals-pinvoke-wrappers/
-
+gi
 http://forum.unity3d.com/threads/unity-5-2-2f1-embed-in-ios-with-extern-dllimport-__internal-methods-fails-to-compile.364809/
 
 
