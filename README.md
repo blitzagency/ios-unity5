@@ -77,6 +77,18 @@ Adjust that path to point to your ios unity export path
 <img src="https://dl.dropboxusercontent.com/u/20065272/forums/github/ios-unity5/unity_ios_export_path.png">
 
 
+#### Add a new `run script` build phase
+
+Now we need to ensure we copy our fresh unity project on each build, so we add a
+new run script build phase.
+
+Select Build Phases from your project settings to add a new build phase.
+
+Copy the contents of the UnityProjectRefresh.sh script into this phase.
+
+<img src="https://dl.dropboxusercontent.com/u/20065272/forums/github/ios-unity5/run_script_phase.png">
+
+
 Now, remember the last step from Unity above? `Remember the folder you built the project too.`.
 Good, we need to drag some files into our
 
