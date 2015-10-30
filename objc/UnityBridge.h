@@ -9,11 +9,16 @@
 #define UnityBridge_h
 
 #import "UnityUtils.h"
+#import "UnityAppController.h"
 #import "Unity/UnityInterface.h"
 #endif /* UnityBridge_h */
 
 
 
+/**
+  * Replacement Function for UnityAppController.h
+  *
+  */
 /*
  NS_INLINE UnityAppController* GetAppController(){
 

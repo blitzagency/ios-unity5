@@ -50,6 +50,7 @@ which is not diffiucilt, it's just time consuming given the number of files.
 - Add the `objc` folder in this repo with the new custom unity init and obj-c bridging header
 - Rename `main` in `main.mm` to anything else
 - Alter the application delegate and cerate a main.swift file.
+- Wrap the UnityAppController into your application delegate
 - Adjust the `GetAppController` function in `UnityAppController.h`
 
 
@@ -191,6 +192,63 @@ Note that if your `AppDelegate` is NOT called `AppDelegate` you will need to upd
 the last  argument above in `UIApplicationMain(<argc>, <argv>, <UIApplication>, <here>)`
 to be whatever yours is called.
 
+#### Wrap the UnityAppController into your application delegate
+
+We are taking away control from the unity generated application delegate, we
+need to act as a proxy for it in our `AppDelegate`.
+
+First add the following variable to your `AppDelegate`
+
+```swift
+var currentUnityController: UnityAppController!
+```
+Now we need to initialize and proxy through the calls to the `UnityAppController`.
+All said and done you will be left with the following:
+
+```swift
+//
+//  AppDelegate.swift
+//
+//  Created by Adam Venturella on 10/28/15
+//
+
+import UIKit
+
+class AppDelegate: UIResponder, UIApplicationDelegate {
+
+    var window: UIWindow?
+    var currentUnityController: UnityAppController!
+
+
+    func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
+        currentUnityController = UnityAppController()
+        currentUnityController.application(application, didFinishLaunchingWithOptions: launchOptions)
+        return true
+    }
+
+    func applicationWillResignActive(application: UIApplication) {
+        currentUnityController.applicationWillResignActive(application)
+    }
+
+    func applicationDidEnterBackground(application: UIApplication) {
+        currentUnityController.applicationDidEnterBackground(application)
+    }
+
+    func applicationWillEnterForeground(application: UIApplication) {
+        currentUnityController.applicationWillEnterForeground(application)
+    }
+
+    func applicationDidBecomeActive(application: UIApplication) {
+        currentUnityController.applicationDidBecomeActive(application)
+    }
+
+    func applicationWillTerminate(application: UIApplication) {
+        currentUnityController.applicationWillTerminate(application)
+    }
+}
+
+```
+
 #### Adjust the `GetAppController` function in `UnityAppController.h`
 
 Locate the file `UnityAppController.h` in the xcode group `Unity/Classes/`
@@ -211,6 +269,18 @@ Comment that out. You will end up with this:
 //{
 //    return (UnityAppController*)[UIApplication sharedApplication].delegate;
 //}
+```
+
+Now we need to add a new version of this function:
+
+```objc
+NS_INLINE UnityAppController* GetAppController()
+{
+
+    NSObject<UIApplicationDelegate>* delegate = [UIApplication sharedApplication].delegate;
+    UnityAppController* currentUnityController = (UnityAppController *)[delegate valueForKey:@"currentUnityController"];
+    return currentUnityController;
+}
 ```
 
 [www.the-nerd.be]: http://www.the-nerd.be/2015/08/20/a-better-way-to-integrate-unity3d-within-a-native-ios-application/  "The Nerd"
