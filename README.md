@@ -48,8 +48,8 @@ which is not diffiucilt, it's just time consuming given the number of files.
 - Import your unity project
 - Clean up your unity project
 - Add the `objc` folder in this repo with the new custom unity init and obj-c bridging header
-- Alter the application delegate and cerate a main.swift file.
 - Rename `main` in `main.mm` to anything else
+- Alter the application delegate and cerate a main.swift file.
 - Adjust the `GetAppController` function in `UnityAppController.h`
 
 
@@ -103,9 +103,8 @@ Do 1 folder at a time, this will take a minute or more to do, there are lots of 
 
 We are going to drag in the following folders (You don't need to copy them):
 
-- /your/unity/ios/export/path/Classes
-- /your/unity/ios/export/path/Libraries
-
+- `/your/unity/ios/export/path/Classes`
+- `/your/unity/ios/export/path/Libraries`
 
 
 #### Clean up your unity project
@@ -122,7 +121,91 @@ The Unity.xcconfig we applied knows where they are for compiling purposes.
 - Remove `Unity/Classes/Native/*.h` 7:55- 8:44 in [www.the-nerd.be] video.
 
 
+#### Add the `objc` folder in this repo
+
+You can copy these if you want, they are tiny.
+
+- `UnityBridge.h` is the `SWIFT_OBJC_BRIDGING_HEADER` specified in `Unity.xcconfig`
+- `UnityUtils.h/mm` is our new custom init function.
+
+The new custom unity init function is pulled directly our of the main.mm file in your unity project.
+Swift does not have the same initialization convention as an objecitve-c app, so we are going to
+tweak things slightly.
+
+#### Rename `main` in `main.mm` to anything else
+
+In your xcode project under `Unity/Classses` locate the `main.mm` file. Within that file locate
+
+```cpp
+int main(int argc, char* argv[])
+```
+Once you find that you can go ahead and see that `UnityUtils.mm` which we imported
+above is effectively this function. Should Unity change this initialization you will need
+to update your `UnityUtils.mm` file to match their initialization. Note that we don't
+copy the `UIApplicationMain` part. Swift will handle that.
+
+Anyway, we need to rename this function to anything but `main`:
 
 
+```cpp
+int main_unity_default(int argc, char* argv[])
+```
+
+#### Alter the swift application delegate and cerate a main.swift file
+
+We have to get our initialization point done however, so we need 2 change 2 files.
+
+Open your `AppDelegate.swift` you will see this at the top of the file:
+
+```swift
+@UIApplicationMain
+class AppDelegate: UIResponder, UIApplicationDelegate {
+```
+
+All we are going to do is remove `@UIApplicationMain`
+
+```swift
+class AppDelegate: UIResponder, UIApplicationDelegate {
+```
+
+Now we need to let xcode know where our new main is. Go ahead and create
+a new swift file called `main.swift`. Paste this into it:
+
+```swift
+import Foundation
+import UIKit
+
+// overriding @UIApplicationMain
+// http://stackoverflow.com/a/24021180/1060314
+
+custom_unity_init(Process.argc, Process.unsafeArgv)
+UIApplicationMain(Process.argc, Process.unsafeArgv, NSStringFromClass(UIApplication), NSStringFromClass(AppDelegate))
+```
+
+Assuming your bridging header is properly registered, xcode will NOT be
+complaining about `custom_unity_init`. If it is, something is wrong with the
+bridging header registration. Go check that out.
+
+#### Adjust the `GetAppController` function in `UnityAppController.h`
+
+Locate the file `UnityAppController.h` in the xcode group `Unity/Classes/`
+
+Find the following function:
+
+```objc
+inline UnityAppController*GetAppController()
+{
+    return (UnityAppController*)[UIApplication sharedApplication].delegate;
+}
+```
+
+Comment that out. You will end up with this:
+
+```objc
+//inline UnityAppController*GetAppController()
+//{
+//    return (UnityAppController*)[UIApplication sharedApplication].delegate;
+//}
+```
 
 [www.the-nerd.be]: http://www.the-nerd.be/2015/08/20/a-better-way-to-integrate-unity3d-within-a-native-ios-application/  "The Nerd"
