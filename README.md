@@ -9,6 +9,8 @@ he made in the provided link is worth watching.
 This covers Unity 5+. At the time of this writing this has been
 successfully used with Unity `5.2.2f1` and `Swift 2.1` under `Xcode 7.1`.
 
+This works with storyboards.
+
 You only get **ONE** unity view. You **CANNOT** run multiple Unity
 Views in your application at once. You will also need a way to
 communicate to <-> from your unity content to your iOS app.
@@ -41,7 +43,7 @@ http://blogs.unity3d.com/2015/07/02/il2cpp-internals-pinvoke-wrappers/
 http://forum.unity3d.com/threads/unity-5-2-2f1-embed-in-ios-with-extern-dllimport-__internal-methods-fails-to-compile.364809/
 
 **Communicating from Unity <-> ObjC**
-
+gi
 http://alexanderwong.me/post/29861010648/call-objective-c-from-unity-call-unity-from
 
 
