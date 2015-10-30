@@ -162,7 +162,8 @@ Open your `AppDelegate.swift` you will see this at the top of the file:
 class AppDelegate: UIResponder, UIApplicationDelegate {
 ```
 
-All we are going to do is remove `@UIApplicationMain`
+All we are going to do is remove `@UIApplicationMain` so we
+are left with the following after we are done:
 
 ```swift
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -185,6 +186,10 @@ UIApplicationMain(Process.argc, Process.unsafeArgv, NSStringFromClass(UIApplicat
 Assuming your bridging header is properly registered, xcode will NOT be
 complaining about `custom_unity_init`. If it is, something is wrong with the
 bridging header registration. Go check that out.
+
+Note that if your `AppDelegate` is NOT called `AppDelegate` you will need to update
+the last  argument above in `UIApplicationMain(<argc>, <argv>, <UIApplication>, <here>)`
+to be whatever yours is called.
 
 #### Adjust the `GetAppController` function in `UnityAppController.h`
 
