@@ -2,7 +2,6 @@
 //  UnityUtils.m
 //
 //  Created by Adam Venturella on 10/28/15.
-//  Copyright © 2015 Adam Venturella. All rights reserved.
 //
 // this is taken directly from the unity generated main.mm file.
 // if they change that initialization, this will need to be updated

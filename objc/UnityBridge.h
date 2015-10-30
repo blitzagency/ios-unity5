@@ -2,7 +2,6 @@
 //  UnityBridge.h
 //
 //  Created by Adam Venturella on 10/28/15.
-//  Copyright © 2015 Adam Venturella. All rights reserved.
 //
 
 #ifndef UnityBridge_h
