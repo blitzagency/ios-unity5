@@ -60,6 +60,21 @@ Set the project to use those settings.
 
 <img src="https://dl.dropboxusercontent.com/u/20065272/forums/github/ios-unity5/set_xcconfig.png">
 
+#### Adjust 1 project dependent setting
+So that does a lot for you in terms of configuration, now we need to adjust 1 setting in it.
+Since we don't know where you decided to export your unity project too, you need to configure that.
+
+
+Open up your project's build settings and scroll all the way to bottom, you will see:
+
+```
+UNITY_IOS_EXPORT_PATH
+```
+
+Adjust that path to point to your ios unity export path
+
+
+<img src="https://dl.dropboxusercontent.com/u/20065272/forums/github/ios-unity5/unity_ios_export_path.png">
 
 
 Now, remember the last step from Unity above? `Remember the folder you built the project too.`.
