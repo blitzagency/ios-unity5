@@ -71,7 +71,7 @@ pretty much just have to :
 ### From Xcode
 
 There is a bit more to do here, but ideally the `Unity.xcconfig` and
-the `UnityProjectInstall.sh` script make this easier.
+the `UnityProjectRefresh.sh` script make this easier.
 
 Setting expectations, the project import process here takes some time,
 it's not instant, Unity generates a lot of files and Xcode has to import them
