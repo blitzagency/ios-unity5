@@ -91,9 +91,38 @@ Copy the contents of the UnityProjectRefresh.sh script into this phase.
 
 #### Import your unity project
 
-This is outlined in this [the-nerd] (video) as well:
+This is outlined in this [www.the-nerd.be] video at around 5:35 - 7:30 as well, but it's now time to import our Unity project.
 
-Now, remember the last step from Unity above? `Remember the folder you built the project too.`.
-Good, we need to drag some files into our
+Create a new group and call it `Unity`, the name doesn't matter it's just helpful to name things so you know what they are).
+<img src="https://dl.dropboxusercontent.com/u/20065272/forums/github/ios-unity5/new_group.png">
+
+You will need to open the folder you built your Unity iOS project into. It will be the same folder you
+specified for the `UNITY_IOS_EXPORT_PATH` above.
+
+Do 1 folder at a time, this will take a minute or more to do, there are lots of files.
+
+We are going to drag in the following folders (You don't need to copy them):
+
+- /your/unity/ios/export/path/Classes
+- /your/unity/ios/export/path/Libraries
+
+
+
+#### Clean up your unity project
+
+This is all in the [www.the-nerd.be] video as well 7:35 -
+There is two location we will clean up for convenience. For both of these we
+*ONLY WANT TO REMOVE REFERENCES DO NOT MOVE TO TRASH*
+
+We don't need the `Unity/Classes/Native/*.h`  and we don't need `Unity/Libraries/libl2cpp/`.
+
+The Unity.xcconfig we applied knows where they are for compiling purposes.
+
+- Remove `Unity/Libraries/libl2cpp/` 7:35 - 7:50 in [www.the-nerd.be] video.
+- Remove `Unity/Classes/Native/*.h` 7:55- 8:44 in [www.the-nerd.be] video.
+
+
+
+
 
 [www.the-nerd.be]: http://www.the-nerd.be/2015/08/20/a-better-way-to-integrate-unity3d-within-a-native-ios-application/  "The Nerd"
