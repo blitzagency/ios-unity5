@@ -119,6 +119,14 @@ Adjust that path to point to your ios unity export path
 
 <img src="https://dl.dropboxusercontent.com/u/20065272/forums/github/ios-unity5/unity_ios_export_path.png">
 
+You can also adjust your
+
+```
+UNITY_RUNTIME_VERSION
+```
+
+If you are not using  `5.2.2f1`.
+
 
 #### Add a new `run script` build phase
 
