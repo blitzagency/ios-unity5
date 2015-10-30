@@ -20,7 +20,7 @@ Views in your application at once. You will also need a way to
 communicate to <-> from your unity content to your iOS app.
 I would recommend an event bus in both your Unity code and
 your iOS code. AKA one central place on both sides to emit events
-to and listen to events from ogit n each side.
+to and listen to events from on each side.
 
 In other words you will need 2 busses, 1 on the Unity side that you can
 call into to emit events from on the iOS side, and one on the iOS side that
