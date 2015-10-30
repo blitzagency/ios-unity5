@@ -24,6 +24,7 @@ You can read more about communication between the 2 worlds from
 the following links:
 
 **More about embedding**
+
 http://forum.unity3d.com/threads/unity-appcontroller-subclassing.191971/
 
 Specifically there is a bit on commuicating here with some sample code.
@@ -35,10 +36,12 @@ http://forum.unity3d.com/threads/unity-appcontroller-subclassing.191971/#post-13
 
 
 **Communicating from Unity -> ObjC**
+
 http://blogs.unity3d.com/2015/07/02/il2cpp-internals-pinvoke-wrappers/
 http://forum.unity3d.com/threads/unity-5-2-2f1-embed-in-ios-with-extern-dllimport-__internal-methods-fails-to-compile.364809/
 
 **Communicating from Unity <-> ObjC**
+
 http://alexanderwong.me/post/29861010648/call-objective-c-from-unity-call-unity-from
 
 
