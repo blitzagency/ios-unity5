@@ -9,11 +9,16 @@ he made in the provided link is worth watching.
 This covers Unity 5+. At the time of this writing this has been
 successfully used with Unity `5.2.2f1` and `Swift 2.1` under `Xcode 7.1`.
 
-You only get **ONE** unity view. You CANNOT run multiple Unity
-Views in your application at once. So you will need a way to
-communicate to and from your unity content. I would recommend
-an event bus in both your unity code and your iOS code. AKA one
-central place to emit events to and listen to events from on each side.
+You only get **ONE** unity view. You **CANNOT** run multiple Unity
+Views in your application at once. You will also need a way to
+communicate to <-> from your unity content to your iOS app.
+I would recommend an event bus in both your Unity code and
+your iOS code. AKA one central place on both sides to emit events
+to and listen to events from on each side.
+
+In other words you will need 2 busses, 1 on the Unity side that you can
+call into to emit events from on the iOS side, and one on the iOS side that
+Unity can call into to emit events on.
 
 You can read more about communication between the 2 worlds from
 the following links:
