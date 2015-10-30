@@ -1,7 +1,7 @@
 # How to use Unity 3D within an iOS app
 
 
-This would not be possible without [the-nerd] (Frederik Jacques).
+This would not be possible without [www.the-nerd.be],  Frederik Jacques.
 All of the settings in the xcconfig file, the `UnityProjectInstall.sh`
 script and the project import are directly derieved from his work. The video
 he made in the provided link is worth watching.
@@ -89,7 +89,11 @@ Copy the contents of the UnityProjectRefresh.sh script into this phase.
 <img src="https://dl.dropboxusercontent.com/u/20065272/forums/github/ios-unity5/run_script_phase.png">
 
 
+#### Import your unity project
+
+This is outlined in this [the-nerd] (video) as well:
+
 Now, remember the last step from Unity above? `Remember the folder you built the project too.`.
 Good, we need to drag some files into our
 
-[the-nerd]: http://www.the-nerd.be/2015/08/20/a-better-way-to-integrate-unity3d-within-a-native-ios-application/  "The Nerd"
+[www.the-nerd.be]: http://www.the-nerd.be/2015/08/20/a-better-way-to-integrate-unity3d-within-a-native-ios-application/  "The Nerd"
