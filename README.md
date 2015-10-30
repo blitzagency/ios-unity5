@@ -48,6 +48,19 @@ which is not diffiucilt, it's just time consuming given the number of files.
 - Import your unity project
 - Clean up your unity project
 - Add the `objc` folder in this repo with the new custom unity init and obj-c bridging header
+- Alter the application delegate and cerate a main.swift file.
+- Rename `main` in `main.mm` to anything else
+- Adjust the `GetAppController` function in `UnityAppController.h`
+
+
+#### Add the Unity.xcconfig file provided in this repo
+
+Drag and drop the `Unity.xcconfig` file into your Xcode project.
+Set the project to use those settings.
+
+<img src="https://dl.dropboxusercontent.com/u/20065272/forums/github/ios-unity5/set_xcconfig.png">
+
+
 
 Now, remember the last step from Unity above? `Remember the folder you built the project too.`.
 Good, we need to drag some files into our
