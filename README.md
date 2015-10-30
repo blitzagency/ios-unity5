@@ -182,8 +182,8 @@ In your xcode project under `Unity/Classses` locate the `main.mm` file. Within t
 ```cpp
 int main(int argc, char* argv[])
 ```
-Once you find that you can go ahead and see that `UnityUtils.mm` which we imported
-above is effectively this function. Should Unity change this initialization you will need
+Once you find that you can go ahead and see that `UnityUtils.mm`, which we imported
+above, is effectively this function. Should Unity change this initialization you will need
 to update your `UnityUtils.mm` file to match their initialization. Note that we don't
 copy the `UIApplicationMain` part. Swift will handle that.
 
@@ -196,7 +196,7 @@ int main_unity_default(int argc, char* argv[])
 
 #### Alter the swift application delegate and cerate a main.swift file
 
-We have to get our initialization point done however, so we need 2 change 2 files.
+We have to get our initialization point done however, so we need some small additions/changes.
 
 Open your `AppDelegate.swift` you will see this at the top of the file:
 
