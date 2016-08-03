@@ -91,7 +91,7 @@ which is not diffiucilt, it's just time consuming given the number of files.
 - Clean up your unity project
 - Add the `objc` folder in this repo with the new custom unity init and obj-c bridging header
 - Rename `main` in `main.mm` to anything else
-- Alter the application delegate and cerate a main.swift file.
+- Alter the application delegate and create a main.swift file.
 - Wrap the UnityAppController into your application delegate
 - Adjust the `GetAppController` function in `UnityAppController.h`
 - Go bananas, you did it! Add the unity view wherever you want!
@@ -202,7 +202,7 @@ Anyway, we need to rename this function to anything but `main`:
 int main_unity_default(int argc, char* argv[])
 ```
 
-#### Alter the swift application delegate and cerate a main.swift file
+#### Alter the swift application delegate and create a main.swift file
 
 We have to get our initialization point done however, so we need some small additions/changes.
 
