@@ -11,7 +11,7 @@ script and the project import are directly derieved from his work. The video
 he made in the provided link is worth watching.
 
 This covers Unity 5+. At the time of this writing this has been
-successfully used with Unity `5.2.2f1` and `Swift 2.1` under `Xcode 7.1` & `Swift 3.0` under `Xcode 8.0`.
+successfully used with Unity `5.2.2f1` and `Swift 3.0` under `Xcode 8.0`.
 
 This works with storyboards.
 
