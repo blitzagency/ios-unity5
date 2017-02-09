@@ -271,29 +271,29 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var currentUnityController: UnityAppController!
 
 
-    func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey : Any]? = nil) -> Bool {
         currentUnityController = UnityAppController()
         currentUnityController.application(application, didFinishLaunchingWithOptions: launchOptions)
         return true
     }
 
-    func applicationWillResignActive(application: UIApplication) {
+    func applicationWillResignActive(_ application: UIApplication) {
         currentUnityController.applicationWillResignActive(application)
     }
 
-    func applicationDidEnterBackground(application: UIApplication) {
+    func applicationDidEnterBackground(_ application: UIApplication) {
         currentUnityController.applicationDidEnterBackground(application)
     }
 
-    func applicationWillEnterForeground(application: UIApplication) {
+    func applicationWillEnterForeground(_ application: UIApplication) {
         currentUnityController.applicationWillEnterForeground(application)
     }
 
-    func applicationDidBecomeActive(application: UIApplication) {
+    func applicationDidBecomeActive(_ application: UIApplication) {
         currentUnityController.applicationDidBecomeActive(application)
     }
 
-    func applicationWillTerminate(application: UIApplication) {
+    func applicationWillTerminate(_ application: UIApplication) {
         currentUnityController.applicationWillTerminate(application)
     }
 }
