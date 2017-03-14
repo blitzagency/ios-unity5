@@ -11,7 +11,7 @@ script and the project import are directly derieved from his work. The video
 he made in the provided link is worth watching.
 
 This covers Unity 5+. At the time of this writing this has been
-successfully used with Unity `5.2.2f1` and `Swift 2.1` under `Xcode 7.1`.
+successfully used with Unity `5.2.2f1` and `Swift 3.0` under `Xcode 8.0`.
 
 This works with storyboards.
 
@@ -230,8 +230,9 @@ import UIKit
 // overriding @UIApplicationMain
 // http://stackoverflow.com/a/24021180/1060314
 
-custom_unity_init(Process.argc, Process.unsafeArgv)
-UIApplicationMain(Process.argc, Process.unsafeArgv, NSStringFromClass(UIApplication), NSStringFromClass(AppDelegate))
+custom_unity_init(CommandLine.argc, CommandLine.unsafeArgv)
+let newUnsafeArgv = UnsafeMutableRawPointer( CommandLine.unsafeArgv ).bindMemory( to: UnsafeMutablePointer<Int8>.self, capacity: Int( CommandLine.argc ) )
+UIApplicationMain( CommandLine.argc, newUnsafeArgv , NSStringFromClass( UIApplication.self ), NSStringFromClass( AppDelegate.self ) )
 ```
 
 Assuming your bridging header is properly registered, xcode will NOT be
@@ -270,29 +271,29 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var currentUnityController: UnityAppController!
 
 
-    func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey : Any]? = nil) -> Bool {
         currentUnityController = UnityAppController()
         currentUnityController.application(application, didFinishLaunchingWithOptions: launchOptions)
         return true
     }
 
-    func applicationWillResignActive(application: UIApplication) {
+    func applicationWillResignActive(_ application: UIApplication) {
         currentUnityController.applicationWillResignActive(application)
     }
 
-    func applicationDidEnterBackground(application: UIApplication) {
+    func applicationDidEnterBackground(_ application: UIApplication) {
         currentUnityController.applicationDidEnterBackground(application)
     }
 
-    func applicationWillEnterForeground(application: UIApplication) {
+    func applicationWillEnterForeground(_ application: UIApplication) {
         currentUnityController.applicationWillEnterForeground(application)
     }
 
-    func applicationDidBecomeActive(application: UIApplication) {
+    func applicationDidBecomeActive(_ application: UIApplication) {
         currentUnityController.applicationDidBecomeActive(application)
     }
 
-    func applicationWillTerminate(application: UIApplication) {
+    func applicationWillTerminate(_ application: UIApplication) {
         currentUnityController.applicationWillTerminate(application)
     }
 }
