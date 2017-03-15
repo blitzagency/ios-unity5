@@ -7,6 +7,7 @@
 #ifndef UnityBridge_h
 #define UnityBridge_h
 
+#import <UIKit/UIKit.h>
 #import "UnityUtils.h"
 #import "UnityAppController.h"
 #import "Unity/UnityInterface.h"
