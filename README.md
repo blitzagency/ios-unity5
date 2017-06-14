@@ -229,6 +229,7 @@ All said and done you will be left with the following:
 
 import UIKit
 
+@UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
     var currentUnityController: UnityAppController?
     var application: UIApplication?
