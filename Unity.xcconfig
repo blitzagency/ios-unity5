@@ -4,7 +4,7 @@
 //  Created by Adam Venturella on 10/28/15.
 //  Settings from http://www.the-nerd.be/2015/08/20/a-better-way-to-integrate-unity3d-within-a-native-ios-application/
 
-UNITY_RUNTIME_VERSION = 5.5.0f3;
+UNITY_RUNTIME_VERSION = 5.5.2f1;
 UNITY_SCRIPTING_BACKEND = il2cpp;
 UNITY_IOS_EXPORT_PATH = /Path/To/Your/Unity/iOS/Build;
 GCC_PREFIX_HEADER = $(UNITY_IOS_EXPORT_PATH)/Classes/Prefix.pch;

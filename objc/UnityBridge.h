@@ -10,20 +10,5 @@
 #import <UIKit/UIKit.h>
 #import "UnityUtils.h"
 #import "UnityAppController.h"
-#import "Unity/UnityInterface.h"
+#import "UnityInterface.h"
 #endif /* UnityBridge_h */
-
-
-
-/**
-  * Replacement Function for UnityAppController.h
-  *
-  */
-/*
- NS_INLINE UnityAppController* GetAppController(){
-
- NSObject<UIApplicationDelegate>* delegate = [UIApplication sharedApplication].delegate;
- UnityAppController* currentUnityController = (UnityAppController *)[delegate valueForKey:@"currentUnityController"];
- return currentUnityController;
- }
-*/

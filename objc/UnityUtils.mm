@@ -25,7 +25,7 @@ static const int constsection = 0;
 void UnityInitTrampoline();
 
 
-extern "C" void custom_unity_init(int argc, char* argv[])
+extern "C" void unity_init(int argc, char* argv[])
 {
     @autoreleasepool
     {

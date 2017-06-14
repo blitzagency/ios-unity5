@@ -11,7 +11,7 @@ script and the project import are directly derieved from his work. The video
 he made in the provided link is worth watching.
 
 This covers Unity 5+. At the time of this writing this has been
-successfully used with Unity `5.2.2f1` and `Swift 3.0` under `Xcode 8.0`.
+successfully used with Unity `5.5.2f1` and `Swift 3.1` under `Xcode 8.3.2`.
 
 This works with storyboards.
 
@@ -91,7 +91,6 @@ which is not diffiucilt, it's just time consuming given the number of files.
 - Clean up your unity project
 - Add the `objc` folder in this repo with the new custom unity init and obj-c bridging header
 - Rename `main` in `main.mm` to anything else
-- Alter the application delegate and create a main.swift file.
 - Wrap the UnityAppController into your application delegate
 - Adjust the `GetAppController` function in `UnityAppController.h`
 - Go bananas, you did it! Add the unity view wherever you want!
@@ -125,7 +124,7 @@ You can also adjust your
 UNITY_RUNTIME_VERSION
 ```
 
-If you are not using  `5.2.2f1`.
+If you are not using  `5.5.2f1`.
 
 
 #### Add a new `run script` build phase
@@ -202,47 +201,6 @@ Anyway, we need to rename this function to anything but `main`:
 int main_unity_default(int argc, char* argv[])
 ```
 
-#### Alter the swift application delegate and create a main.swift file
-
-We have to get our initialization point done however, so we need some small additions/changes.
-
-Open your `AppDelegate.swift` you will see this at the top of the file:
-
-```swift
-@UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate {
-```
-
-All we are going to do is remove `@UIApplicationMain` so we
-are left with the following after we are done:
-
-```swift
-class AppDelegate: UIResponder, UIApplicationDelegate {
-```
-
-Now we need to let xcode know where our new main is. Go ahead and create
-a new swift file called `main.swift`. Paste this into it:
-
-```swift
-import Foundation
-import UIKit
-
-// overriding @UIApplicationMain
-// http://stackoverflow.com/a/24021180/1060314
-
-custom_unity_init(CommandLine.argc, CommandLine.unsafeArgv)
-let newUnsafeArgv = UnsafeMutableRawPointer( CommandLine.unsafeArgv ).bindMemory( to: UnsafeMutablePointer<Int8>.self, capacity: Int( CommandLine.argc ) )
-UIApplicationMain( CommandLine.argc, newUnsafeArgv , NSStringFromClass( UIApplication.self ), NSStringFromClass( AppDelegate.self ) )
-```
-
-Assuming your bridging header is properly registered, xcode will NOT be
-complaining about `custom_unity_init`. If it is, something is wrong with the
-bridging header registration. Go check that out.
-
-Note that if your `AppDelegate` is NOT called `AppDelegate` you will need to update
-the last  argument above in `UIApplicationMain(<argc>, <argv>, <UIApplication>, <here>)`
-to be whatever yours is called.
-
 #### Wrap the UnityAppController into your application delegate
 
 We are taking away control from the unity generated application delegate, we
@@ -278,6 +236,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey : Any]? = nil) -> Bool {
         self.application = application
+        unity_init(CommandLine.argc, CommandLine.unsafeArgv)
         currentUnityController = UnityAppController()
         currentUnityController!.application(application, didFinishLaunchingWithOptions: launchOptions)
         
