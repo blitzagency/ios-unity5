@@ -11,8 +11,8 @@ GCC_PREFIX_HEADER = $(UNITY_IOS_EXPORT_PATH)/Classes/Prefix.pch;
 
 OTHER_LDFLAGS = -weak-lSystem -weak_framework CoreMotion -weak_framework GameKit -weak_framework iAd -framework CoreGraphics -framework AVFoundation -framework CoreVideo -framework CoreMedia -framework SystemConfiguration -framework CoreLocation -framework MediaPlayer -framework CFNetwork -framework AudioToolbox -framework OpenAL -framework QuartzCore -framework OpenGLES -framework UIKit -framework Foundation -liconv.2 -liPhone-lib;
 
-HEADER_SEARCH_PATHS = $(UNITY_IOS_EXPORT_PATH)/Classes $(UNITY_IOS_EXPORT_PATH)/Classes/Native $(UNITY_IOS_EXPORT_PATH)/Libraries/libil2cpp/include;
-LIBRARY_SEARCH_PATHS = $(UNITY_IOS_EXPORT_PATH)/Libraries $(UNITY_IOS_EXPORT_PATH)/Libraries/libil2cpp/include;
+HEADER_SEARCH_PATHS = "$(UNITY_IOS_EXPORT_PATH)/Classes" "$(UNITY_IOS_EXPORT_PATH)/Classes/Native" "$(UNITY_IOS_EXPORT_PATH)/Libraries/libil2cpp/include";
+LIBRARY_SEARCH_PATHS = "$(UNITY_IOS_EXPORT_PATH)/Libraries" "$(UNITY_IOS_EXPORT_PATH)/Libraries/libil2cpp/include";
 
 ENABLE_BITCODE = NO;
 
