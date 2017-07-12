@@ -8,6 +8,6 @@
 #define UnityUtils_h
 
 
-void custom_unity_init(int argc, char* argv[]);
+void unity_init(int argc, char* argv[]);
 
 #endif /* UnityUtils_h */

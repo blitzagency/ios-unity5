@@ -6,6 +6,10 @@
 // this is taken directly from the unity generated main.mm file.
 // if they change that initialization, this will need to be updated
 // as well.
+//
+//  Updated by Martin Straub on 03/15/17.
+//
+// updated to Unity 5.5.0f3 => working on Xcode 8.2.1 with Swift 3.0.2
 
 
 #include "RegisterMonoModules.h"
@@ -21,17 +25,21 @@ static const int constsection = 0;
 void UnityInitTrampoline();
 
 
-extern "C" void custom_unity_init(int argc, char* argv[]){
-    UnityInitTrampoline();
-    UnityParseCommandLine(argc, argv);
-
-    RegisterMonoModules();
-    NSLog(@"-> registered mono modules %p\n", &constsection);
-    RegisterFeatures();
-
-    // iOS terminates open sockets when an application enters background mode.
-    // The next write to any of such socket causes SIGPIPE signal being raised,
-    // even if the request has been done from scripting side. This disables the
-    // signal and allows Mono to throw a proper C# exception.
-    std::signal(SIGPIPE, SIG_IGN);
+extern "C" void unity_init(int argc, char* argv[])
+{
+    @autoreleasepool
+    {
+        UnityInitTrampoline();
+        UnityInitRuntime(argc, argv);
+        
+        RegisterMonoModules();
+        NSLog(@"-> registered mono modules %p\n", &constsection);
+        RegisterFeatures();
+        
+        // iOS terminates open sockets when an application enters background mode.
+        // The next write to any of such socket causes SIGPIPE signal being raised,
+        // even if the request has been done from scripting side. This disables the
+        // signal and allows Mono to throw a proper C# exception.
+        std::signal(SIGPIPE, SIG_IGN);
+    }
 }

@@ -11,7 +11,7 @@ script and the project import are directly derieved from his work. The video
 he made in the provided link is worth watching.
 
 This covers Unity 5+. At the time of this writing this has been
-successfully used with Unity `5.2.2f1` and `Swift 2.1` under `Xcode 7.1`.
+successfully used with Unity `5.5.2f1` and `Swift 3.1` under `Xcode 8.3.2`.
 
 This works with storyboards.
 
@@ -91,7 +91,6 @@ which is not diffiucilt, it's just time consuming given the number of files.
 - Clean up your unity project
 - Add the `objc` folder in this repo with the new custom unity init and obj-c bridging header
 - Rename `main` in `main.mm` to anything else
-- Alter the application delegate and create a main.swift file.
 - Wrap the UnityAppController into your application delegate
 - Adjust the `GetAppController` function in `UnityAppController.h`
 - Go bananas, you did it! Add the unity view wherever you want!
@@ -125,7 +124,7 @@ You can also adjust your
 UNITY_RUNTIME_VERSION
 ```
 
-If you are not using  `5.2.2f1`.
+If you are not using  `5.5.2f1`.
 
 
 #### Add a new `run script` build phase
@@ -202,46 +201,6 @@ Anyway, we need to rename this function to anything but `main`:
 int main_unity_default(int argc, char* argv[])
 ```
 
-#### Alter the swift application delegate and create a main.swift file
-
-We have to get our initialization point done however, so we need some small additions/changes.
-
-Open your `AppDelegate.swift` you will see this at the top of the file:
-
-```swift
-@UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate {
-```
-
-All we are going to do is remove `@UIApplicationMain` so we
-are left with the following after we are done:
-
-```swift
-class AppDelegate: UIResponder, UIApplicationDelegate {
-```
-
-Now we need to let xcode know where our new main is. Go ahead and create
-a new swift file called `main.swift`. Paste this into it:
-
-```swift
-import Foundation
-import UIKit
-
-// overriding @UIApplicationMain
-// http://stackoverflow.com/a/24021180/1060314
-
-custom_unity_init(Process.argc, Process.unsafeArgv)
-UIApplicationMain(Process.argc, Process.unsafeArgv, NSStringFromClass(UIApplication), NSStringFromClass(AppDelegate))
-```
-
-Assuming your bridging header is properly registered, xcode will NOT be
-complaining about `custom_unity_init`. If it is, something is wrong with the
-bridging header registration. Go check that out.
-
-Note that if your `AppDelegate` is NOT called `AppDelegate` you will need to update
-the last  argument above in `UIApplicationMain(<argc>, <argv>, <UIApplication>, <here>)`
-to be whatever yours is called.
-
 #### Wrap the UnityAppController into your application delegate
 
 We are taking away control from the unity generated application delegate, we
@@ -253,6 +212,7 @@ First add the following variable to your `AppDelegate`
 var currentUnityController: UnityAppController!
 ```
 Now we need to initialize and proxy through the calls to the `UnityAppController`.
+
 All said and done you will be left with the following:
 
 ```swift
@@ -261,39 +221,75 @@ All said and done you will be left with the following:
 //
 //  Created by Adam Venturella on 10/28/15
 //
+//  Updated by Martin Straub on 15/03/2017.
+// Added some stuff to pause unity in order to stop consuming cpu cylces and battery life, when not being displayed. 
+// Indeed, unity will still sit in memory all the time, but that seems to be a more complex thing to solve. 
+// Just use `startUnity` and `stopUnity` for running/pausing unity (see also ViewController example below).
+//
 
 import UIKit
 
+@UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
-
-    var window: UIWindow?
-    var currentUnityController: UnityAppController!
-
-
-    func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
+    var currentUnityController: UnityAppController?
+    var application: UIApplication?
+    var isUnityRunning = false
+    
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey : Any]? = nil) -> Bool {
+        self.application = application
+        unity_init(CommandLine.argc, CommandLine.unsafeArgv)
         currentUnityController = UnityAppController()
-        currentUnityController.application(application, didFinishLaunchingWithOptions: launchOptions)
+        currentUnityController!.application(application, didFinishLaunchingWithOptions: launchOptions)
+        
+        // first call to startUnity will do some init stuff, so just call it here and directly stop it again
+        startUnity()
+        stopUnity()
+        
         return true
     }
-
-    func applicationWillResignActive(application: UIApplication) {
-        currentUnityController.applicationWillResignActive(application)
+    
+    func applicationWillResignActive(_ application: UIApplication) {
+        if isUnityRunning {
+            currentUnityController?.applicationWillResignActive(application)
+        }
     }
-
-    func applicationDidEnterBackground(application: UIApplication) {
-        currentUnityController.applicationDidEnterBackground(application)
+    
+    func applicationDidEnterBackground(_ application: UIApplication) {
+        if isUnityRunning {
+            currentUnityController?.applicationDidEnterBackground(application)
+        }
     }
-
-    func applicationWillEnterForeground(application: UIApplication) {
-        currentUnityController.applicationWillEnterForeground(application)
+    
+    func applicationWillEnterForeground(_ application: UIApplication) {
+        if isUnityRunning {
+            currentUnityController?.applicationWillEnterForeground(application)
+        }
     }
-
-    func applicationDidBecomeActive(application: UIApplication) {
-        currentUnityController.applicationDidBecomeActive(application)
+    
+    func applicationDidBecomeActive(_ application: UIApplication) {
+        if isUnityRunning {
+            currentUnityController?.applicationDidBecomeActive(application)
+        }
     }
-
-    func applicationWillTerminate(application: UIApplication) {
-        currentUnityController.applicationWillTerminate(application)
+    
+    func applicationWillTerminate(_ application: UIApplication) {
+        if isUnityRunning {
+            currentUnityController?.applicationWillTerminate(application)
+        }
+    }
+    
+    func startUnity() {
+        if !isUnityRunning {
+            isUnityRunning = true
+            currentUnityController!.applicationDidBecomeActive(application!)
+        }
+    }
+    
+    func stopUnity() {
+        if isUnityRunning {
+            currentUnityController!.applicationWillResignActive(application!)
+            isUnityRunning = false
+        }
     }
 }
 
@@ -343,33 +339,34 @@ file for me attached to a storyboard. Here is how I hooked up my little demo:
 //  ViewController.swift
 //
 //  Created by Adam Venturella on 10/28/15.
+//  Updated by Martin Straub on 15/03/2017.
 //
 
 import UIKit
 
 class ViewController: UIViewController {
-
-    @IBAction func onLoadUnity(sender: AnyObject) {
-        loadUnity()
-    }
-
-    @IBAction func onCallUnity(sender: AnyObject) {
-        UnitySendMessage("EventBus", "Trigger", "Hello World")
-    }
-
-    func loadUnity(){
-
-        let unityView = UnityGetGLView()
-
-        self.view.addSubview(unityView)
-        unityView.translatesAutoresizingMaskIntoConstraints = false
-
+    var unityView: UIView?
+    
+    @IBAction func startUnity(sender: AnyObject) {
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        appDelegate.startUnity()
+        
+        unityView = UnityGetGLView()!
+        
+        self.view!.addSubview(unityView!)
+        unityView!.translatesAutoresizingMaskIntoConstraints = false
+        
         // look, non-full screen unity content!
         let views = ["view": unityView]
-        let w = NSLayoutConstraint.constraintsWithVisualFormat("|[view]-20-|", options: [], metrics: nil, views: views)
-        let h = NSLayoutConstraint.constraintsWithVisualFormat("V:|-75-[view]-50-|", options: [], metrics: nil, views: views)
-
+        let w = NSLayoutConstraint.constraints(withVisualFormat: "|-20-[view]-20-|", options: [], metrics: nil, views: views)
+        let h = NSLayoutConstraint.constraints(withVisualFormat: "V:|-75-[view]-50-|", options: [], metrics: nil, views: views)
         view.addConstraints(w + h)
+    }
+    
+    @IBAction func stopUnity(sender: AnyObject) {
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        appDelegate.stopUnity()
+        unityView!.removeFromSuperview()
     }
 }
 
