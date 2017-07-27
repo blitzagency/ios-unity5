@@ -156,7 +156,6 @@ We are going to drag in the following folders (You don't need to copy them):
 - `/your/unity/ios/export/path/Classes`
 - `/your/unity/ios/export/path/Libraries`
 
-
 #### Clean up your unity project
 
 This is all in the [www.the-nerd.be] video as well 7:35 -
@@ -170,6 +169,7 @@ The Unity.xcconfig we applied knows where they are for compiling purposes.
 - Remove `Unity/Libraries/libl2cpp/` 7:35 - 7:50 in [www.the-nerd.be] video.
 - Remove `Unity/Classes/Native/*.h` 7:55- 8:44 in [www.the-nerd.be] video.
 
+Make sure after adding the files that all the .cpp and .mm files are added to your target. If they aren't add them manually by filtering for the file extension on the project navigator, selecting the files and then including them in the target on the inspector panel.
 
 #### Add the `objc` folder in this repo
 
@@ -231,7 +231,7 @@ import UIKit
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
-    var currentUnityController: UnityAppController?
+    @objc var currentUnityController: UnityAppController?
     var application: UIApplication?
     var isUnityRunning = false
     
